@@ -1,3 +1,5 @@
+import Container from "@/components/global/Container";
+import Navbar from "@/components/navbar/Navbar";
 import type { Metadata } from "next";
 import "./globals.css";
 
@@ -13,7 +15,10 @@ export default function RootLayout({
 }>) {
         return (
                 <html lang="en">
-                        <body>{children}</body>
+                        <body>
+                                <Navbar />
+                                <Container className="py-20">{children}</Container>
+                        </body>
                 </html>
         );
 }
