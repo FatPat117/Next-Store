@@ -2,7 +2,7 @@ import { Button } from "../ui/button";
 
 const AddToCart = ({ productId }: { productId: string }) => {
         return (
-                <Button className="capitalize my-8" size={"lg"}>
+                <Button key={productId} className="capitalize my-8" size={"lg"}>
                         Add To Cart
                 </Button>
         );

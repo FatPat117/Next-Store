@@ -5,7 +5,7 @@ const ProductRating = ({ productId }: { productId: string }) => {
         const count = 25;
 
         return (
-                <span className="flex gap-1 items-center text-md mt-1 mb-6">
+                <span key={productId} className="flex gap-1 items-center text-md mt-1 mb-6">
                         <FaStar className="w-3 h-3" />
                         {rating} {`${count} reviews`}
                 </span>
