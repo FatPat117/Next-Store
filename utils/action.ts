@@ -9,8 +9,14 @@ export const fetchFeaturedProducts = async () => {
         return products;
 };
 
-export const fetchAllProducts = async () => {
+export const fetchAllProducts = async ({ search = "" }: { search?: string }) => {
         const products = await prisma.product.findMany({
+                where: {
+                        OR: [
+                                { name: { contains: search, mode: "insensitive" } },
+                                { description: { contains: search, mode: "insensitive" } },
+                        ],
+                },
                 orderBy: {
                         createdAt: "desc",
                 },
