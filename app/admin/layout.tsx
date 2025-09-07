@@ -6,10 +6,10 @@ const DashboardPageLayout = ({ children }: { children: React.ReactNode }) => {
                         <h2 className="text-2xl pl-4">Dashboard</h2>
                         <Separator className="mt-2" />
                         <section className="grid lg:grid-cols-12 gap-12 mt-12">
-                                <div className="grid lg:col-span-3">
+                                <div className="lg:col-span-2">
                                         <AdminSideBar />
                                 </div>
-                                <div className="grid lg:col-span-10 px-4">{children}</div>
+                                <div className="lg:col-span-10 px-4">{children}</div>
                         </section>
                 </>
         );
