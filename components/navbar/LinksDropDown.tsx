@@ -11,6 +11,7 @@ import { SignedIn, SignedOut, SignInButton, SignUpButton } from "@clerk/nextjs";
 import Link from "next/link";
 import { LuAlignLeft } from "react-icons/lu";
 import { Button } from "../ui/button";
+import SignOutLink from "./SignOutLink";
 
 function LinksDropDown() {
         return (
@@ -54,6 +55,10 @@ function LinksDropDown() {
                                                         </DropdownMenuItem>
                                                 );
                                         })}
+                                        <DropdownMenuSeparator />
+                                        <DropdownMenuItem>
+                                                <SignOutLink />
+                                        </DropdownMenuItem>
                                 </SignedIn>
                         </DropdownMenuContent>
                 </DropdownMenu>
