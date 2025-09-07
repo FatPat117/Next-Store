@@ -5,7 +5,6 @@ import DarkMode from "./DarkMode";
 import LinksDropDown from "./LinksDropDown";
 import Logo from "./Logo";
 import NavSearch from "./NavSearch";
-import SignOutLink from "./SignOutLink";
 const Navbar = () => {
         return (
                 <nav className="border-b">
@@ -20,7 +19,6 @@ const Navbar = () => {
                                         <CartButton />
                                         <DarkMode />
                                         <LinksDropDown />
-                                        <SignOutLink />
                                 </div>
                         </Container>
                 </nav>

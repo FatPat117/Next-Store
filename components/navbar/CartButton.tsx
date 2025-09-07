@@ -9,7 +9,7 @@ const CartButton = async () => {
                 <Button
                         asChild
                         variant={"outline"}
-                        size={"icon"}
+                        size={"sm"}
                         className="flex justify-center items-center relative border-2 border-slate-300 dark:border-slate-700 shadow-sm"
                 >
                         <Link href={"/cart"}>
