@@ -4,7 +4,7 @@ const name = "image";
 
 function ImageInput() {
         return (
-                <div className="mb-3">
+                <div className="mb-3 flex flex-col gap-3">
                         <Label htmlFor={name} className="capitalize">
                                 Image
                         </Label>

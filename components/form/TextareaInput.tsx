@@ -3,15 +3,15 @@ import { Textarea } from "@/components/ui/textarea";
 
 type TextAreaInputProps = {
         name: string;
-        labelText?: string;
+        label?: string;
         defaultValue?: string;
 };
 
-function TextAreaInput({ name, labelText, defaultValue }: TextAreaInputProps) {
+function TextAreaInput({ name, label, defaultValue }: TextAreaInputProps) {
         return (
-                <div className="mb-3">
+                <div className="mb-3 flex flex-col gap-3">
                         <Label htmlFor={name} className="capitalize">
-                                {labelText || name}
+                                {label || name}
                         </Label>
                         <Textarea
                                 id={name}

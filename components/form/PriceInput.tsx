@@ -8,7 +8,7 @@ type FormInputNumberProps = {
 
 function PriceInput({ defaultValue }: FormInputNumberProps) {
         return (
-                <div className="mb-3">
+                <div className="mb-3 flex flex-col gap-3">
                         <Label htmlFor="price" className="capitalize">
                                 Price ($)
                         </Label>
