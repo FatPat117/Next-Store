@@ -4,7 +4,7 @@ import { currentUser } from "@clerk/nextjs/server";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { imageSchema, productSchema, validateWithZodSchema } from "./schema";
-import { uploadImage } from "./upload";
+import { deleteImage, uploadImage } from "./upload";
 export const getAuthUser = async () => {
         const user = await currentUser();
         if (!user) redirect("/");
@@ -80,12 +80,16 @@ export const createProductAction = async (preState: any, formData: FormData): Pr
                 const validatedFile = validateWithZodSchema(imageSchema, { image: file });
                 const validatedFields = validateWithZodSchema(productSchema, rawData);
 
-                const imageUrl = await uploadImage(validatedFile.image, "products");
+                const { secure_url: imageUrl, public_id: imagePublicId } = await uploadImage(
+                        validatedFile.image,
+                        "products"
+                );
 
                 await prisma.product.create({
                         data: {
                                 ...validatedFields,
                                 image: imageUrl,
+                                imagePublicId,
                                 clerkId: user.id,
                         },
                 });
@@ -106,9 +110,23 @@ export const fetchAdminProducts = async () => {
 export const deleteProductAction = async ({ productId }: { productId: string }) => {
         await getAdminUser();
         try {
+                // Lấy product để biết imagePublicId
+                const product = await prisma.product.findUnique({
+                        where: { id: productId },
+                });
+
+                if (!product) throw new Error("Product not found");
+
+                // Xoá product trong DB
                 await prisma.product.delete({
                         where: { id: productId },
                 });
+
+                // Xoá ảnh Cloudinary nếu có
+                if (product.imagePublicId) {
+                        await deleteImage(product.imagePublicId);
+                }
+
                 revalidatePath("/admin/products");
                 return { message: "Product deleted successfully" };
         } catch (error) {

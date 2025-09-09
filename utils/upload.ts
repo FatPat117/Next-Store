@@ -1,7 +1,11 @@
-// app/actions/upload.ts
 import cloudinary from "@/utils/cloudinary";
 
-export async function uploadImage(file: File, folder: string = "products"): Promise<string> {
+type UploadResult = {
+        secure_url: string;
+        public_id: string;
+};
+
+export async function uploadImage(file: File, folder: string = "products"): Promise<UploadResult> {
         const bytes = await file.arrayBuffer();
         const buffer = Buffer.from(bytes);
 
@@ -10,9 +14,22 @@ export async function uploadImage(file: File, folder: string = "products"): Prom
                         if (error || !result) {
                                 reject(error || new Error("Upload failed"));
                         } else {
-                                resolve(result.secure_url);
+                                resolve({ secure_url: result.secure_url, public_id: result.public_id });
                         }
                 });
-                uploadStream.end(buffer); // ✅ Gửi buffer thẳng vào Cloudinary
+                uploadStream.end(buffer);
         });
+}
+
+export async function deleteImage(publicId: string): Promise<{ result: string }> {
+        if (!publicId) {
+                throw new Error("publicId is required to delete image");
+        }
+
+        try {
+                const result = await cloudinary.uploader.destroy(publicId);
+                return result; // { result: "ok" } nếu xoá thành công
+        } catch (error) {
+                throw new Error(`Failed to delete image: ${(error as Error).message}`);
+        }
 }

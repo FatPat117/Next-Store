@@ -1,7 +1,5 @@
 "use client";
-import FormContainer from "@/components/form/FormContainer";
 import { Button } from "@/components/ui/button";
-import { deleteProductAction } from "@/utils/action";
 import { ReloadIcon } from "@radix-ui/react-icons";
 import { useFormStatus } from "react-dom";
 import { LuSquare, LuTrash } from "react-icons/lu";
