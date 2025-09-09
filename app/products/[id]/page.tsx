@@ -3,7 +3,7 @@ import AddToCart from "@/components/singleProduct/AddToCart";
 import BreadCrumbs from "@/components/singleProduct/Breadcrumbs";
 import ProductRating from "@/components/singleProduct/ProductRating";
 import { fetchSingleProduct } from "@/utils/action";
-import { formatCurrency } from "@/utils/formatDate";
+import { formatCurrency } from "@/utils/formatCurrency";
 import { Product } from "@prisma/client";
 import Image from "next/image";
 const ProductDetailsPage = async ({ params }: { params: { id: string } }) => {

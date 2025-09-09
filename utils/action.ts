@@ -1,16 +1,23 @@
 "use server";
 import prisma from "@/utils/db";
 import { currentUser } from "@clerk/nextjs/server";
+import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { imageSchema, productSchema, validateWithZodSchema } from "./schema";
 import { uploadImage } from "./upload";
-const getAuthUser = async () => {
+export const getAuthUser = async () => {
         const user = await currentUser();
         if (!user) redirect("/");
         return user;
 };
 
-const renderError = (error: unknown) => {
+export const getAdminUser = async () => {
+        const user = await getAuthUser();
+        if (!user || user.id !== process.env.ADMIN_USER_ID) redirect("/");
+        return user;
+};
+
+export const renderError = (error: unknown) => {
         return error instanceof Error ? error.message : "There was an error....";
 };
 
@@ -49,6 +56,7 @@ export const fetchSingleProduct = async (productId: string) => {
         return product;
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const createProductAction = async (preState: any, formData: FormData): Promise<{ message: string }> => {
         const user = await getAuthUser();
 
@@ -85,4 +93,25 @@ export const createProductAction = async (preState: any, formData: FormData): Pr
                 return { message: renderError(error) };
         }
         redirect("/admin/products");
+};
+
+export const fetchAdminProducts = async () => {
+        await getAdminUser();
+        const products = prisma.product.findMany({
+                orderBy: { createdAt: "desc" },
+        });
+        return products;
+};
+
+export const deleteProductAction = async ({ productId }: { productId: string }) => {
+        await getAdminUser();
+        try {
+                await prisma.product.delete({
+                        where: { id: productId },
+                });
+                revalidatePath("/admin/products");
+                return { message: "Product deleted successfully" };
+        } catch (error) {
+                return renderError(error);
+        }
 };
